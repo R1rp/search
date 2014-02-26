@@ -18,10 +18,10 @@ public class EightPuzzleSolving {
 		ArrayList<EightPuzzle> aList =
 				new ArrayList <EightPuzzle>();
 		Agenda<EightPuzzle> agenda = new AgendaListBF<EightPuzzle>(aList);
-		
 		SearchingFramework<PuzzleMove,EightPuzzle,EightPuzzleSuccessorFunction > search 
 		= new SearchingFramework<PuzzleMove,EightPuzzle,EightPuzzleSuccessorFunction >
-		(function, puzzle, goal, aList, agenda);
+		(function, puzzle, goal, agenda);
+		
 		System.out.println(puzzle);
 		search.Search();
 		List<PuzzleMove> result = new ArrayList<PuzzleMove>();

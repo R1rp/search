@@ -1,19 +1,20 @@
 package search;
 
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import rp13.search.interfaces.Agenda;
 import rp13.search.interfaces.Puzzle;
 
-public class AgendaListBF<ItemT extends Puzzle> implements Agenda<ItemT> {
+public class AgendaListDF<ItemT extends Puzzle> implements Agenda<ItemT> {
 
 
 	private List<ItemT> aList;
 	private Iterator<ItemT> list;
 	
-	public AgendaListBF(List<ItemT> aList) {
+	public AgendaListDF(List<ItemT> aList) {
 
 		this.aList=aList;
 		this.list =aList.iterator();
@@ -28,7 +29,11 @@ public class AgendaListBF<ItemT extends Puzzle> implements Agenda<ItemT> {
 	@Override
 	public void push(ItemT _item) {
 		// TODO Auto-generated method stub
+		List<ItemT> temp = aList;
+		aList = new ArrayList<ItemT>();
 		aList.add(_item);
+		aList.addAll(temp);
+		
 	}
 
 	@Override
@@ -60,8 +65,4 @@ public class AgendaListBF<ItemT extends Puzzle> implements Agenda<ItemT> {
 		// TODO Auto-generated method stub
 		return this.list;
 	}
-
-
-
-
 }

@@ -23,7 +23,6 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 	public SearchingFramework(Function function,
 			StateT puzzle,
 			StateT goal,
-			ArrayList<StateT> aList,
 			Agenda<StateT> agenda)
 	{
 		this.function=function;
@@ -35,19 +34,18 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 		this.puzzle = puzzle;
 		
 	}
-	
-
-	public void Search(){
-		
-		//push original puzzle to the open list(agenda)
-		//generate successors through agenda.pop
-		//push each successors to the agenda
-		//get the path from the SEARCHTREELIST with agenda.pop
-		//copy the path to that agenda.pop and create a new search tree with new successor and the path
-		//add the path generated
-		//add the search tree to the SEARCHTREELIST
-		//loop until one successor generate is goal
-		
+	/**
+	//push original puzzle to the open list(agenda)
+			generate successors through agenda.pop
+			push each successors to the agenda
+			get the path from the SEARCHTREELIST with agenda.pop
+			copy the pathToagenda.pop and create a new search tree with new successor and the path
+			add the path generated
+			add the search tree to the SEARCHTREELIST
+			loop until one successor generate is goal
+			 * 
+			 */
+	public void Search(){		
 		agenda.push(puzzle); //push puzzle to agenda
 		while(!trees.contain(goal)){//if the trees do not have the goal state
 			StateT before = agenda.pop(); //create var for agenda.pop
@@ -55,10 +53,11 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 			function.getSuccessors(before, successors);//get successors through "before"
 			for (ActionStatePair<ActionT, StateT> successor : successors) { //for each successor generated
 				if(!trees.contain(successor.getState())){ // if tree do not have the the same state
-					List<ActionT> addmove = new ArrayList<ActionT>();
-					addmove.addAll(trees.getPathTo(before));
-					addmove.add(successor.getAction());
-					trees.add(new SearchTree<ActionT, StateT>(successor.getState(),	addmove)); //add temp search tree to temp list
+					List<ActionT> addmove = new ArrayList<ActionT>();//create new list to store move
+					addmove.addAll(trees.getPathTo(before)); //add the path to "before State"
+					addmove.add(successor.getAction());//add new move
+					trees.add(new SearchTree<ActionT, StateT>(successor.getState(),	addmove)); 
+					//add a new search tree with new state a the path to it
 					agenda.push(successor.getState()); //push the state to agenda
 					}
 				}
