@@ -28,7 +28,10 @@ public class Node {
 	public void setRobot() {
 		this.isRobot = true;
 	}
-
+	
+	public void RobotMove(){
+		this.isRobot=false;
+	}
 	public boolean isFlag() {
 		return isFlag;
 	}
@@ -36,8 +39,6 @@ public class Node {
 	public void setFlag() {
 		this.isFlag = true;
 	}
-
-
 	public boolean isUpBlock() {
 		return upBlock;
 	}
@@ -70,38 +71,46 @@ public class Node {
 		return y;
 	}
 	
-	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-			if(isFlag()==true){
+		if(isFlag()==true){
 				if(isDownBlock()==true){
 					sb.append("g");   //use G represent the goal
 										// if down move is a block use small letter
 				}
+				else if(isRobot()==true){
+					sb.append("V");
+				}
 				else sb.append("G");       		
 			}
-			else if(isRobot()==true){
-				if(isDownBlock()==true){
-					sb.append("r");//use R represent the Robot
+		else if(isRobot()==true){
+			if(isDownBlock()==true){
+				sb.append("r");//use R represent the Robot
 					// if down move is a block use small letter
 
-				}
-				else sb.append("R");
 			}
-			else{
-				if(isDownBlock()==true){
-					sb.append("_");           // use o represent the grid
-					//if down move is blocked then use underline
-				}
-				else sb.append("o");
+			else sb.append("R");
+		}
+		else{
+			if(isDownBlock()==true){
+				sb.append("_");           // use o represent the grid
+				//if down move is blocked then use underline
 			}
+			else sb.append("O");
+		}
+			
 		if(isRightBlock()==true){
 			sb.append("|");      //best way to represent right block
 		}
 		else{
 			sb.append(" ");
 		}
-
 		return sb.toString();
+	}
+
+	public static void main(String[] args){
+		Node a = new Node(1,1);
+		
+		System.out.println(a);
 	}
 }

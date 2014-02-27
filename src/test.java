@@ -1,33 +1,33 @@
+import Grid.Grid;
+import Grid.Grid.RobotMove;
 import Grid.Node;
 
 
-public class test {
 
+public class test {
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Node[][] a = new Node[10][10];
-		for(int y=0 ; y<10 ; y++){
-			for(int x =0 ; x<10 ;x++){
-				a[x][y] = new Node(x,y);
-			}
-		}
+		Grid a = new Grid(5,5,4,4);
+		a.setRobot(0, 0);
+		System.out.println(a);
+		System.out.println(RobotMove.FORWARD);
+		System.out.println(a.isPossibleMove(RobotMove.FORWARD));
+		a.makeMove(RobotMove.FORWARD);
+		System.out.println(a);
 		
-		a[1][1].setRightBlock();
-		a[3][4].setDownBlock();
-		a[3][4].setRightBlock();
-		a[2][4].setDownBlock();
-		a[9][9].setRobot();
-		a[5][4].setFlag();
-		a[5][4].setRightBlock();
-		a[5][4].setDownBlock();
-		for(int y=0 ; y<10 ; y++){
-			for(int x =0 ; x<10 ;x++){
-				System.out.print(a[y][x]);
-			}
-			System.out.println("");
-		}
+		System.out.println(RobotMove.RIGHT);
+		System.out.println(a.isPossibleMove(RobotMove.RIGHT));
+		a.makeMove(RobotMove.RIGHT);
+		System.out.println(a);
 		
+		a.makeMove(RobotMove.RIGHT);
+		System.out.println(a);
+
+		a.makeMove(RobotMove.RIGHT);
+		System.out.println(a);
+
+
 		
 	}
-
 }
