@@ -28,8 +28,8 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	private Node[][] grid;
 	private final int height;
 	private final int width;
-	private final int goalX;
-	private final int goalY;
+	private int goalX;
+	private int goalY;
 	private int robotX;
 	private int robotY;
 	private int robotDirection;
@@ -37,7 +37,7 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	private int g; //cost
 	private int f; //total cost;
 	
-	public Grid(int width,int height,int goalX ,int goalY){
+	public Grid(int width,int height){
 
 		this.height= height;
 		this.width = width;
@@ -60,9 +60,7 @@ public class Grid implements Comparable<Grid>,Puzzle{
 				}
 			}
 		}
-		this.goalX = goalX;
-		this.goalY = goalY;
-		grid[goalX][goalY].setFlag();
+		
 		this.robotDirection = RobotDirection.Up.val;
 		this.g = 0;
 		calculateCost();
@@ -92,6 +90,11 @@ public class Grid implements Comparable<Grid>,Puzzle{
 			
 		}
 		grid[robotX][robotY].setRobot();
+	}
+	public void setGoal(int goalX , int goalY){
+		this.goalX = goalX;
+		this.goalY = goalY;
+		grid[goalX][goalY].setFlag();
 	}
 	
 	public void makeMove(RobotMove rmove){
@@ -153,22 +156,7 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		}
 		return true;
 	}
-	public String toString(){
-		StringBuilder sp = new StringBuilder();
-		for(int y=height-1 ; y>=0 ; y--){
-			for(int x =0 ; x<width ;x++){
-				sp.append(grid[x][y]);
-			}
-				sp.append("\n");
-			}
-		for (RobotDirection value : RobotDirection.values()) {
-			if (robotDirection==value.val){
-				sp.append("Faceing " + value +"\n");
-			}
-		}
-		
-		return sp.toString();
-	}
+
 	
 	public boolean equals(Grid that){
 		return this.robotX==that.robotX&&
@@ -186,10 +174,52 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		return a;
 	}
 	
+	public void setBlock(int x , int y , int a, int b){
+		if(x==a){ // if horizontal block
+			if(b>y){
+				grid[x][y].setUpBlock();
+				grid[a][b].setDownBlock();}
+			else{
+				grid[x][y].setDownBlock();
+				grid[a][b].setUpBlock();}
+		}
+		if(y==b){ // if vertical block
+			if(a>x){
+				grid[x][y].setRightBlock();
+				grid[a][b].setLeftBlock();
+			}
+			else{
+				grid[x][y].setLeftBlock();
+				grid[a][b].setRightBlock();
+			}
+		}
+	}
+	
+	public Node Node(int x , int y){
+		return grid[x][y];
+	}
+	
+	public String toString(){
+		StringBuilder sp = new StringBuilder();
+		for(int y=height-1 ; y>=0 ; y--){
+			for(int x =0 ; x<width ;x++){
+				sp.append(grid[x][y]);
+			}
+				sp.append("\n");
+			}
+		for (RobotDirection value : RobotDirection.values()) {
+			if (robotDirection==value.val){
+				sp.append("Faceing " + value +"\n");
+			}
+		}
+		
+		return sp.toString();
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Grid a = new Grid(5,5,4,4);
+		Grid a = new Grid(5,5);
 		a.setRobot(0, 0);
+		a.setGoal(2,1);
 		System.out.println(a);
 		System.out.println(RobotMove.FORWARD);
 		System.out.println(a.isPossibleMove(RobotMove.FORWARD));
