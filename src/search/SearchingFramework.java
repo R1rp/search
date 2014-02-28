@@ -14,7 +14,7 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 	
 		
 	private Function function;
-	private final StateT puzzle,goal;
+	private final StateT puzzle;
 	private List<ActionStatePair<ActionT,StateT>> successors;
 	private Agenda<StateT> agenda;
 	private SearchTreeList<ActionT,StateT> trees ;
@@ -22,11 +22,9 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 	
 	public SearchingFramework(Function function,
 			StateT puzzle,
-			StateT goal,
 			Agenda<StateT> agenda)
 	{
 		this.function=function;
-		this.goal = goal;
 		this.agenda = agenda;
 		this.original = new SearchTree<ActionT, StateT>(puzzle);
 		this.trees = new SearchTreeList<ActionT,StateT>();
@@ -47,7 +45,7 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 			 */
 	public void Search(){		
 		agenda.push(puzzle); //push puzzle to agenda
-		while(!trees.contain(goal)){//if the trees do not have the goal state
+		while(!trees.isGoal()){//if the trees do not have the goal state
 			StateT before = agenda.pop(); //create var for agenda.pop
 			successors = new ArrayList<ActionStatePair<ActionT, StateT>>(); // successors be come new list every loop
 			function.getSuccessors(before, successors);//get successors through "before"
@@ -59,12 +57,14 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 					trees.add(new SearchTree<ActionT, StateT>(successor.getState(),	addmove)); 
 					//add a new search tree with new state a the path to it
 					agenda.push(successor.getState()); //push the state to agenda
+					 
 					}
 				}
+				agenda.sort();//only works for a* search agenda
 			}					
 		}
 	public List<ActionT> getResult(){
-		return trees.getPathTo(goal);
+		return trees.getPathToGoal();
 	}
 
 }

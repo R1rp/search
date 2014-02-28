@@ -65,4 +65,7 @@ public class AgendaListDF<ItemT extends Puzzle> implements Agenda<ItemT> {
 		// TODO Auto-generated method stub
 		return this.list;
 	}
+	
+	public void sort(){}
+	
 }

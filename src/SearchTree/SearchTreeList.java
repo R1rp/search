@@ -3,7 +3,9 @@ package SearchTree;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchTreeList<ActionT,StateT> extends ArrayList<SearchTree<ActionT,StateT>> {
+import rp13.search.interfaces.Puzzle;
+
+public class SearchTreeList<ActionT,StateT extends Puzzle> extends ArrayList<SearchTree<ActionT,StateT>> {
 	
 	/**
 	 * 
@@ -29,5 +31,21 @@ public class SearchTreeList<ActionT,StateT> extends ArrayList<SearchTree<ActionT
 				return true;
 		}
 		return false;
+	}
+	
+	public boolean isGoal(){
+		for (SearchTree<ActionT,StateT> tree : this) {
+			if(tree.State().isGoal())
+				return true;
+		}
+		return false;
+	}
+	
+	public List<ActionT> getPathToGoal(){
+		for (SearchTree<ActionT,StateT> pair : this) {
+			if(pair.State().isGoal())
+				return pair.Path();
+		}
+		return new ArrayList<ActionT>() ;
 	}
 }

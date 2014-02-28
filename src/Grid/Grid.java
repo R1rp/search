@@ -273,6 +273,7 @@ public class Grid implements Comparable<Grid>,Puzzle{
 				this.robotDirection==that.robotDirection&&
 				this.f==that.f&&
 				this.g==that.g;
+				
 	}
 	
 	/**

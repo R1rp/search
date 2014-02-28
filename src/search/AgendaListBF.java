@@ -61,7 +61,7 @@ public class AgendaListBF<ItemT extends Puzzle> implements Agenda<ItemT> {
 		return this.list;
 	}
 
-
+	public void sort(){}
 
 
 }

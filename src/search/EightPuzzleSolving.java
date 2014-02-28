@@ -14,13 +14,12 @@ public class EightPuzzleSolving {
 	{
 		EightPuzzleSuccessorFunction function = new EightPuzzleSuccessorFunction();
 		EightPuzzle puzzle = EightPuzzle.randomEightPuzzle();
-		EightPuzzle goal = EightPuzzle.orderedEightPuzzle();
 		ArrayList<EightPuzzle> aList =
 				new ArrayList <EightPuzzle>();
 		Agenda<EightPuzzle> agenda = new AgendaListBF<EightPuzzle>(aList);
 		SearchingFramework<PuzzleMove,EightPuzzle,EightPuzzleSuccessorFunction > search 
 		= new SearchingFramework<PuzzleMove,EightPuzzle,EightPuzzleSuccessorFunction >
-		(function, puzzle, goal, agenda);
+		(function, puzzle, agenda);
 		
 		System.out.println(puzzle);
 		search.Search();
