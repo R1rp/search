@@ -1,9 +1,17 @@
 package Grid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import rp13.search.interfaces.Puzzle;
 
 
 public class Grid implements Comparable<Grid>,Puzzle{
+	/** enum for moving the robot
+	 * 
+	 * @author Nelson
+	 * only have forward left and right so the robot cant go backwards to avoid duplicate state
+	 */
 	public enum RobotMove{
 		FORWARD(0),LEFT(-1),RIGHT(1);
 
@@ -14,7 +22,11 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		}
 		
 	}
-	
+	/**
+	 * enum for where direction the robot are facing 
+	 * @author Nelson
+	 *
+	 */
 	public enum RobotDirection{
 		Left(0),Up(1),Right(2),Down(3);
 		private final int val;
@@ -25,9 +37,23 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		}
 		
 	}
-	private Node[][] grid;
-	private final int height;
-	private final int width;
+	/**
+	 * @param grid Node[][] tho represent the grid
+	 * @param height of the grid
+	 * @param width of the grid
+	 * @param goalX x-coor of goal
+	 * @param goalY y-coor of goal
+	 * @param robotX x-coor of robot
+	 * @parm robotY y-coor of robot
+	 * @param robotDirection an int to represent the direction of the robot is facing
+	 * @param d estimate distance
+	 * @param g cost
+	 * @param f total cost
+	 * @param blocks a List to store blocks position for the copy methods
+	 */
+	private Node[][] grid; 
+	protected int height;
+	protected int width;
 	private int goalX;
 	private int goalY;
 	private int robotX;
@@ -36,12 +62,20 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	private int d; //estimate distance
 	private int g; //cost
 	private int f; //total cost;
+	private List<BlockPair> blocks ;
 	
-	public Grid(int width,int height){
+	/**
+	 * constructor of a grid
+	 
+	 */
+	public Grid(int width,int height){ //set this to be private
 
-		this.height= height;
+		this.height = height;
 		this.width = width;
 		this.grid = new Node[width][height];
+		/** 
+		 * set blocks for the edges
+		 */
 		for(int i =0 ; i<this.width ; i++){
 			for(int j =0 ; j<this.height ; j++){
 				this.grid[i][j] = new Node(i,j);
@@ -60,26 +94,88 @@ public class Grid implements Comparable<Grid>,Puzzle{
 				}
 			}
 		}
-		
-		this.robotDirection = RobotDirection.Up.val;
+		this.blocks = new ArrayList<BlockPair>();
+		this.robotDirection = RobotDirection.Up.val; //set robot face up 
 		this.g = 0;
-		calculateCost();
+		calculateCost(); //calculate the cost
 	}
 
+	
+	//create a copy method much the same as the constructor
+	/**
+	 * basically copy everything 
+	 * @param that
+	 */
+	public Grid (Grid that){
+		this.width = that.width;
+		this.height = that.height;
+		this.goalX = that.goalX;
+		this.goalY = that.goalY;
+		this.robotDirection = that.robotDirection;
+		this.robotX = that.robotX;
+		this.robotY = that.robotY;
+		this.grid = new Node[width][height];
+		for(int i =0 ; i<this.width ; i++){
+			for(int j =0 ; j<this.height ; j++){
+				this.grid[i][j] = new Node(i,j);
+				//set block for edges
+				if(i==0){
+					this.grid[i][j].setLeftBlock();  
+				}
+				if(i==width-1){
+					this.grid[i][j].setRightBlock();
+				}
+				if(j==0){
+					this.grid[i][j].setDownBlock();
+				}
+				if(j==height-1){
+					this.grid[i][j].setUpBlock();
+				}
+			}
+		}
+		
+		 //set blocks for the new grid
+		 
+		this.blocks = new ArrayList<BlockPair>();
+		for (BlockPair pair : that.blocks) {
+			this.setBlock(pair.getX(), pair.getY(), pair.getA(), pair.getB());
+		}
+		
+		setGoal(this.goalX,this.goalY);//set goal
+		setRobot(this.robotX,this.robotY);//set robot 
+		this.g = that.g;
+		calculateCost();//calculate the cost
+		
+	}
+	/**
+	 * private method to calculate the cost
+	 */
 	private void calculateCost(){
-		int dx = this.robotX -goalX; 
+		int dx = this.robotX -goalX;  //distance x must be positive
 		if(dx<0)
 			{dx = -1*dx;}
-		int dy = this.robotY -goalY;
+		int dy = this.robotY -goalY; //distance y must be positive
 		if(dy<0)
 			{dy=-1*dy;}
-		this.d = dx+dy;
-		this.f = d+g;
+		this.d = dx+dy; //add it up
+		this.f = d+g; //f = d+g
 	}
+	
+	/**
+	 * 
+	 * @return if the goal position is same as robot position
+	 */
 	public boolean isGoal(){
 		return grid[goalX][goalY].isRobot() ;
 	}
 	
+	/**
+	 * set the robot position
+	 * and other position set isRobot be false
+	 * @param x robot x-coor
+	 * @param y robot y-coor
+	 * 
+	 */
 	public void setRobot(int x,int y){
 		this.robotX = x;
 		this.robotY = y;
@@ -91,47 +187,56 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		}
 		grid[robotX][robotY].setRobot();
 	}
+	/**
+	 * Set the goal position of the grid
+	 * @param goalX x-coor
+	 * @param goalY y-coor
+	 */
 	public void setGoal(int goalX , int goalY){
 		this.goalX = goalX;
 		this.goalY = goalY;
 		grid[goalX][goalY].setFlag();
 	}
 	
+	/**
+	 * Let the robot mvoe
+	 * @param rmove either move FOWARD LEFT OR RIGHT
+	 */
 	public void makeMove(RobotMove rmove){
 		
 		if(isPossibleMove(rmove)){
-			robotDirection += rmove.r_move;
+			robotDirection += rmove.r_move; //robot rotate get new direction
 			if(robotDirection>3){
-				robotDirection = RobotDirection.Left.val;
+				robotDirection = RobotDirection.Left.val; // if greater 3 than is left
 			}
 			if(robotDirection<0){
-				robotDirection = RobotDirection.Down.val;
+				robotDirection = RobotDirection.Down.val; // if less than 0 than is down
 			}
 		
 			if(robotDirection==RobotDirection.Left.val){
-				setRobot(robotX-1 ,robotY);
+				setRobot(robotX-1 ,robotY);       //if robot is move left then set new robot position
 			}
 			if(robotDirection==RobotDirection.Up.val){
-				setRobot(robotX ,robotY+1);
+				setRobot(robotX ,robotY+1); //move up
 			}
 			if(robotDirection==RobotDirection.Right.val){
-				setRobot(robotX+1 ,robotY);
+				setRobot(robotX+1 ,robotY); //move right
 			}
 			if(robotDirection==RobotDirection.Down.val){
-				setRobot(robotX ,robotY-1);
+				setRobot(robotX ,robotY-1); //move down
 			}
 			if(rmove==RobotMove.FORWARD){
-				g++;
+				g++; //move forward cost1
 			}
 			if(rmove==RobotMove.LEFT||rmove==RobotMove.RIGHT){
-				g=g+2;
+				g=g+2; //turn cost 2
 			}
-			calculateCost();
+			calculateCost(); //re-calculate cost
 		}
 	}
 	/** return if it is a possible move*/
 	public boolean isPossibleMove(RobotMove rmove){
-		int temp = robotDirection;
+		int temp = robotDirection; //set var for robot direction as dont wanna change it
 		temp += rmove.r_move;
 		{
 			if(temp==4){
@@ -143,45 +248,69 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		}
 		
 		if(temp==RobotDirection.Left.val){
-			return !grid[robotX][robotY].isLeftBlock();
+			return !grid[robotX][robotY].isLeftBlock(); //if move left check left is blocked;
 		}
 		if(temp==RobotDirection.Up.val){
-			return !grid[robotX][robotY].isUpBlock();
+			return !grid[robotX][robotY].isUpBlock(); //check up
 		}
 		if(temp==RobotDirection.Right.val){
-			return !grid[robotX][robotY].isRightBlock();
+			return !grid[robotX][robotY].isRightBlock(); //check right
 		}
 		if(temp==RobotDirection.Down.val){
-			return !grid[robotX][robotY].isDownBlock();
+			return !grid[robotX][robotY].isDownBlock(); //check down
 		}
 		return true;
 	}
 
-	
+	/**
+	 * 
+	 * @param that a grid to compare to 
+	 * @return robot direction 
+	 */
 	public boolean equals(Grid that){
-		return this.robotX==that.robotX&&
-				this.robotY==that.robotY;
+		return this.robotX==that.robotX&&    
+				this.robotY==that.robotY&&
+				this.robotDirection==that.robotDirection&&
+				this.f==that.f&&
+				this.g==that.g;
 	}
+	
+	/**
+	 * get f 
+	 * @return f
+	 */
 	public int getF(){
 		return f;
 	}
-	//compare method
+	
+	
+	/**
+	 * compare the f;
+	 */
 	public int compareTo(Grid arg0) {
 		int a= this.f-arg0.f;
 		if (a==0){
-			return this.g-arg0.g;
+			return this.g-arg0.g; //if f is same check g;
 		}
 		return a;
 	}
-	
+	/**
+	 * 
+	 * @param x x-coor
+	 * @param y y-coor
+	 * @param a x-coor of another node
+	 * @param b y-coor of another
+	 */
 	public void setBlock(int x , int y , int a, int b){
 		if(x==a){ // if horizontal block
 			if(b>y){
 				grid[x][y].setUpBlock();
-				grid[a][b].setDownBlock();}
+				grid[a][b].setDownBlock();
+			}
 			else{
 				grid[x][y].setDownBlock();
-				grid[a][b].setUpBlock();}
+				grid[a][b].setUpBlock();
+			}
 		}
 		if(y==b){ // if vertical block
 			if(a>x){
@@ -193,6 +322,8 @@ public class Grid implements Comparable<Grid>,Puzzle{
 				grid[a][b].setRightBlock();
 			}
 		}
+		
+		blocks.add(new BlockPair(x,y,a,b));//add to blocks to store
 	}
 	
 	public Node Node(int x , int y){
@@ -209,12 +340,12 @@ public class Grid implements Comparable<Grid>,Puzzle{
 			}
 		for (RobotDirection value : RobotDirection.values()) {
 			if (robotDirection==value.val){
-				sp.append("Faceing " + value +"\n");
+				sp.append("Facing " + value +"\n");
 			}
 		}
-		
 		return sp.toString();
 	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Grid a = new Grid(5,5);
