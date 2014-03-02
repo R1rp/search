@@ -13,9 +13,9 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	 * only have forward left and right so the robot cant go backwards to avoid duplicate state
 	 */
 	public enum RobotMove{
-		FORWARD(0),LEFT(-1),RIGHT(1);
+		FORWARD(0),LEFT(+1),RIGHT(-1);
 
-		private final int r_move;
+		public final int r_move;
 
 		private RobotMove(int _move) {
 			r_move = _move;
@@ -205,7 +205,7 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	public void makeMove(RobotMove rmove){
 		
 		if(isPossibleMove(rmove)){
-			robotDirection += rmove.r_move; //robot rotate get new direction
+			robotDirection -= rmove.r_move; //robot rotate get new direction
 			if(robotDirection>3){
 				robotDirection = RobotDirection.Left.val; // if greater 3 than is left
 			}
@@ -237,7 +237,7 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	/** return if it is a possible move*/
 	public boolean isPossibleMove(RobotMove rmove){
 		int temp = robotDirection; //set var for robot direction as dont wanna change it
-		temp += rmove.r_move;
+		temp -= rmove.r_move;
 		{
 			if(temp==4){
 				temp = 0;
@@ -331,6 +331,12 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		return grid[x][y];
 	}
 	
+	public int getRobotX(){
+		return robotX;
+	}
+	public int getRobotY(){
+		return robotY;
+	}
 	public String toString(){
 		StringBuilder sp = new StringBuilder();
 		for(int y=height-1 ; y>=0 ; y--){

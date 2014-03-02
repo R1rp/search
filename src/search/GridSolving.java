@@ -21,6 +21,7 @@ public class GridSolving {
 		puzzle.setBlock(4,3,3,3);
 		puzzle.setBlock(2, 2, 3, 2);
 		puzzle.setBlock(3,0,4,0);
+		puzzle.setBlock(3,1,4,1);
 			
 		ArrayList<Grid> aList = new ArrayList <Grid>();
 		Agenda<Grid> agenda = new AgendaListA<Grid>(aList);
@@ -32,13 +33,12 @@ public class GridSolving {
 		search.Search();
 		List<RobotMove> result = new ArrayList<RobotMove>();
 		result.addAll(search.getResult());
-		for (RobotMove robotmove : result) {
-			System.out.println(robotmove);
-			puzzle.makeMove(robotmove);
+		for (RobotMove robotMove : result) {
+			puzzle.makeMove(robotMove);
+			System.out.println(robotMove);
 			System.out.println(puzzle);
 		}
-		System.out.println(puzzle.getF());
-		System.out.println(result);
+		
 		
 		
 

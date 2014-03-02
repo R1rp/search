@@ -1,10 +1,12 @@
-package rp13.search.interfaces;
+package search;
+
+
 
 import java.util.Arrays;
 import java.util.Random;
 
 
-public class Puzzle {
+public class Jumble {
 	public static String a;
 	public static String c;
 	
@@ -15,11 +17,11 @@ public class Puzzle {
 	 * 
 	 */
 	
-	public enum PuzzleMove {
+	public enum JumbleMove {
 		 LEFT(-1), RIGHT(1), INLEFT(-5), INRIGHT(5);
 
 		private final int m_move;
-		private PuzzleMove(int _move) {
+		private JumbleMove(int _move) {
 			m_move = _move;
 		}
 
@@ -27,7 +29,7 @@ public class Puzzle {
 		/**
 		 * Cached result of values such that copy isn't done every time.
 		 */
-		private static final PuzzleMove[] VALUES = values();
+		private static final JumbleMove[] VALUES = values();
 
 		/***
 		 * Count of values in list
@@ -60,7 +62,7 @@ public class Puzzle {
 	 * Create an puzzle in its default configuration
 	 * @return 
 	 */
-	private Puzzle() {
+	private Jumble() {
 	    a = "rpSearch";
 		int x = a.length();
 		for (int i = 0; i < x; i++) {
@@ -70,7 +72,7 @@ public class Puzzle {
 		
 		
 	}
-	public Puzzle(Puzzle _that) {
+	public Jumble(Jumble _that) {
 		
 		c_board = Arrays.copyOf(s_board, a.length());
 		m_currentinx = _that.m_currentinx;
@@ -83,10 +85,10 @@ public class Puzzle {
 
 
 	}
-	public static Puzzle orderedPuzzle() {
-		return new Puzzle();
+	public static Jumble orderedPuzzle() {
+		return new Jumble();
 	}
-	public boolean isPossibleMove(PuzzleMove _move) {
+	public boolean isPossibleMove(JumbleMove _move) {
 		int newinx = 0;
 		if(_move.m_move == 5)
 		m_currentinx++;
@@ -100,7 +102,7 @@ public class Puzzle {
 
 	}
 
-	public boolean makeMove(PuzzleMove _move) {
+	public boolean makeMove(JumbleMove _move) {
 		int newinx = 0;
 		if (isPossibleMove(_move)) {
 			// where should the blank end up
@@ -157,16 +159,16 @@ public class Puzzle {
 		}
 	
 	
-	private String ctoString() {
+	public String toString() {
 		return c;
 	}
 
 	public static void main(String[] args) {
-		Puzzle p = Puzzle.orderedPuzzle();
+		Jumble p = Jumble.orderedPuzzle();
 		System.out.println(a);
 
 		
-		for (PuzzleMove move : PuzzleMove.values()) {
+		for (JumbleMove move : JumbleMove.values()) {
 			p.makeMove(move);
 			System.out.println(move);
 			System.out.println(p);

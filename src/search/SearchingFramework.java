@@ -14,7 +14,8 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 	
 		
 	private Function function;
-	private final StateT puzzle;
+	private final 
+	StateT puzzle;
 	private List<ActionStatePair<ActionT,StateT>> successors;
 	private Agenda<StateT> agenda;
 	private SearchTreeList<ActionT,StateT> trees ;
@@ -63,6 +64,17 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 				agenda.sort();//only sort the list for a* search 
 			}					
 		}
+	public StateT getState(List<ActionT> moves){
+		StateT state = null;
+		for (SearchTree<ActionT,StateT> pairs : trees) {
+			if(pairs.Path()==moves){
+				state = pairs.State();
+			}
+			
+		}
+		return state;
+	}
+
 	/**
 	 * 
 	 * @return the path to Goal
