@@ -60,9 +60,13 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 					 
 					}
 				}
-				agenda.sort();//only works for a* search agenda
+				agenda.sort();//only sort the list for a* search 
 			}					
 		}
+	/**
+	 * 
+	 * @return the path to Goal
+	 */
 	public List<ActionT> getResult(){
 		return trees.getPathToGoal();
 	}
