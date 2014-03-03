@@ -32,6 +32,15 @@ public class SearchTree<ActionT,StateT> {
 	public void addAction(ActionT move){
 		path.add(move);
 	}
-		
+	
+	public boolean equalPath(List<ActionT> abc){
+		for(int i =0 ; i<path.size() ; i++){
+			if(path.get(i)!=abc.get(i)){
+				return false;
+			}
+			
+		}
+		return true;
+	}
 		
 }

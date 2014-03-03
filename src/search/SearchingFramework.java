@@ -14,8 +14,7 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 	
 		
 	private Function function;
-	private final 
-	StateT puzzle;
+	private final StateT puzzle;
 	private List<ActionStatePair<ActionT,StateT>> successors;
 	private Agenda<StateT> agenda;
 	private SearchTreeList<ActionT,StateT> trees ;
@@ -82,7 +81,7 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 	public StateT getState(List<ActionT> moves){
 		StateT state = null;
 		for (SearchTree<ActionT,StateT> pairs : trees) {
-			if(pairs.Path()==moves){
+			if(pairs.equalPath(moves)){
 				state = pairs.State();
 			}
 			

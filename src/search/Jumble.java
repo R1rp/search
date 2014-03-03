@@ -16,45 +16,13 @@ public class Jumble {
 	 * @author nah
 	 * 
 	 */
-	
-	public enum JumbleMove {
-		 LEFT(-1), RIGHT(1), INLEFT(-5), INRIGHT(5);
 
-		private final int m_move;
-		private JumbleMove(int _move) {
-			m_move = _move;
-		}
-
-
-		/**
-		 * Cached result of values such that copy isn't done every time.
-		 */
-		private static final JumbleMove[] VALUES = values();
-
-		/***
-		 * Count of values in list
-		 */
-		private static final int SIZE = VALUES.length;
-	}
-	/*
-	public enum IndexMove {
-		INLEFT(-1), INRIGHT(1), INLEFT2(-2), INRIGHT2(2), STAY(0);
-
-		private final int i_move;
-		private IndexMove(int _move) {
-			i_move = _move;
-		}
-		private static final IndexMove[] VALUES = values();
-
-	}
-	*/
-	
 	/**
 	 * The pieces in the puzzle, represented as an array.
 	 */
-	protected final char[] s_board = new char[20];
+	protected final char[] s_board = new char[4];
 	
-	private static char[] c_board;
+	private static char[] c_board = new char[4];
 	
 	private int m_currentinx = 0;
 
@@ -63,32 +31,32 @@ public class Jumble {
 	 * @return 
 	 */
 	private Jumble() {
-	    a = "rpSearch";
+	    a = "abcd";
 		int x = a.length();
 		for (int i = 0; i < x; i++) {
-			s_board[i] = a.charAt(i);
+			c_board[i] = a.charAt(i);
 		}
 		
 		
 		
 	}
-	public Jumble(Jumble _that) {
+	public  Jumble(Jumble _that) {
 		
-		c_board = Arrays.copyOf(s_board, a.length());
-		m_currentinx = _that.m_currentinx;
+		this.c_board = new char[4];
+		for(int i =0 ; i<4 ; i++)
+			c_board[i] = _that.c_board[i];
 	}
 
 	public boolean equals() {
 
-				return Arrays.equals(s_board, c_board);
-			
-
+		return Arrays.equals(s_board, c_board);	
 
 	}
 	public static Jumble orderedPuzzle() {
 		return new Jumble();
 	}
 	public boolean isPossibleMove(JumbleMove _move) {
+		/**
 		int newinx = 0;
 		if(_move.m_move == 5)
 		m_currentinx++;
@@ -96,31 +64,24 @@ public class Jumble {
 			m_currentinx--;
 		else
 		newinx = m_currentinx + _move.m_move;
-			
-		return (newinx >= 0) && (newinx <= a.length()) && (m_currentinx >= 0) && (m_currentinx <= a.length());
+			*/
+		return (_move.getLeft() >= 0) && (_move.getLeft() <= a.length()) && (_move.getRight() >= 0) && (_move.getRight() <= a.length());
 
 
 	}
 
 	public boolean makeMove(JumbleMove _move) {
-		int newinx = 0;
 		if (isPossibleMove(_move)) {
 			// where should the blank end up
-			if(_move.m_move == 5)
-				m_currentinx++;
-				else if(_move.m_move == -5)
-					m_currentinx--;
-				else
-				{
-			 newinx = m_currentinx + _move.m_move;
+			
 			// get the piece that was in that position
-			char toSwapWith = c_board[newinx];
+			char toSwapWith = c_board[_move.getLeft()];
 			// then swap them around
 //			toSwapWith = c_board[i];
-			c_board[newinx] = c_board[m_currentinx];
-			c_board[m_currentinx] = toSwapWith;
-			m_currentinx = newinx;
-				}
+			c_board[_move.getLeft()] = c_board[_move.getRight()];
+			c_board[_move.getRight()] = toSwapWith;
+			
+				
 			return true;
 		} else {
 			return false;
@@ -142,37 +103,45 @@ public class Jumble {
 	 * Creates a randomised eight puzzle using the given number of random moves.
 	 * @return 
 	 */
-	public static void randomPuzzle() {
-		  Random rnd = new Random();
-
+	public static Jumble randomPuzzle() {
+		  Random rnd = new Random(10);
+		  Jumble random = new Jumble(orderedPuzzle());
 	        int ran; 
 	        char temp;
 		
-		for (int i = 0; i < c_board.length; i++) {
+		for (int i = 0; i < rnd.nextInt(); i++) {
+			random.makeMove(JumbleMove.Random());
+			}
+		//c.valueOf(c_board);
+			return random;
+		}
+	
+	
+	public String toString() {
+		StringBuilder sp = new StringBuilder();
+		for (char letter : c_board) {
+			sp.append(letter);
 			
-			ran =  rnd.nextInt(c_board.length);
-			temp = c_board[i];
-			c_board[i] = c_board[ran];
-			c_board[ran] = temp;
 		}
-		c.valueOf(c_board);
-		}
-	
-	
-	public String ctoString() {
-		return c;
+		return sp.toString();
 	}
 
+	private String valueOf(char[] c_board2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	public static void main(String[] args) {
-		Jumble p = Jumble.orderedPuzzle();
-		System.out.println(a);
-
+		Jumble p = Jumble.randomPuzzle();
+		//System.out.println(a);
+		System.out.println(p);
 		
 		for (JumbleMove move : JumbleMove.values()) {
 			p.makeMove(move);
-			System.out.println(move);
+			
+			System.out.println(move.toString());
 			System.out.println(p);
 		}
+		
 
 	}
 

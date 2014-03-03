@@ -7,7 +7,7 @@ import java.util.List;
 
 import rp13.search.interfaces.SuccessorFunction;
 import rp13.search.util.ActionStatePair;
-import search.Jumble.JumbleMove;
+import search.JumbleMove;
 
 /**
  * An example eight-puzzle successor function.
@@ -46,7 +46,7 @@ public class JumbleSuccessorFunction implements
 				// store the move and action together in a pair and add to
 				// successor list
 				_successors
-						.add(new ActionStatePair<Jumble.JumbleMove, Jumble>(
+						.add(new ActionStatePair<JumbleMove, Jumble>(
 								move, successor));
 			}
 
