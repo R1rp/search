@@ -1,22 +1,23 @@
-package search;
+package agendas;
 
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import rp.util.Collections;
 import rp13.search.interfaces.Agenda;
 import rp13.search.interfaces.Puzzle;
 
-public class AgendaListDF<ItemT extends Puzzle> implements Agenda<ItemT> {
+public class AgendaListA<ItemT extends Comparable<ItemT>&Puzzle> implements Agenda<ItemT> {
 
 
 	private List<ItemT> aList;
 	private Iterator<ItemT> list;
 	
-	public AgendaListDF(List<ItemT> aList) {
+	public AgendaListA() {
 
-		this.aList=aList;
+		this.aList= new ArrayList<ItemT>();
 		this.list =aList.iterator();
 	}
 	
@@ -29,11 +30,7 @@ public class AgendaListDF<ItemT extends Puzzle> implements Agenda<ItemT> {
 	@Override
 	public void push(ItemT _item) {
 		// TODO Auto-generated method stub
-		List<ItemT> temp = aList;
-		aList = new ArrayList<ItemT>();
 		aList.add(_item);
-		aList.addAll(temp);
-		
 	}
 
 	@Override
@@ -65,7 +62,10 @@ public class AgendaListDF<ItemT extends Puzzle> implements Agenda<ItemT> {
 		// TODO Auto-generated method stub
 		return this.list;
 	}
-	
-	public void sort(){}
-	
+
+	public void sort(){
+		Collections.sort(aList);
+	}
+
+
 }

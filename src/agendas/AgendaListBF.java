@@ -1,22 +1,22 @@
-package search;
+package agendas;
 
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import rp13.search.interfaces.Agenda;
 import rp13.search.interfaces.Puzzle;
 
-public class AgendaListA<ItemT extends Comparable<ItemT>&Puzzle> implements Agenda<ItemT> {
+public class AgendaListBF<ItemT extends Puzzle> implements Agenda<ItemT> {
 
 
 	private List<ItemT> aList;
 	private Iterator<ItemT> list;
 	
-	public AgendaListA(List<ItemT> aList) {
+	public AgendaListBF() {
 
-		this.aList=aList;
+		this.aList= new ArrayList<ItemT>();
 		this.list =aList.iterator();
 	}
 	
@@ -62,9 +62,7 @@ public class AgendaListA<ItemT extends Comparable<ItemT>&Puzzle> implements Agen
 		return this.list;
 	}
 
-	public void sort(){
-		Collections.sort(aList);
-	}
+	public void sort(){}
 
 
 }

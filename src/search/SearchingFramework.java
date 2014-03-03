@@ -34,7 +34,7 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 		
 	}
 	/**
-	//push original puzzle to the open list(agenda)
+		push original puzzle to the open list(agenda)
 			generate successors through agenda.pop
 			push each successors to the agenda
 			get the path from the SEARCHTREELIST with agenda.pop
@@ -42,11 +42,14 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 			add the path generated
 			add the search tree to the SEARCHTREELIST
 			loop until one successor generate is goal
-			 * 
+			
+			 * return true if there s a solution
+			 * false if no solution / all blocked
 			 */
-	public void Search(){		
+	public boolean Search(){
+		try{
 		agenda.push(puzzle); //push puzzle to agenda
-		while(!trees.isGoal()){//if the trees do not have the goal state
+		while(!trees.isGoal()&&!agenda.isEmpty()){//if the trees do not have the goal state
 			StateT before = agenda.pop(); //create var for agenda.pop
 			successors = new ArrayList<ActionStatePair<ActionT, StateT>>(); // successors be come new list every loop
 			function.getSuccessors(before, successors);//get successors through "before"
@@ -61,9 +64,21 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 					 
 					}
 				}
-				agenda.sort();//only sort the list for a* search 
-			}					
+				agenda.sort();//only sort the list for a* search
+				
+			}
+			if(agenda.isEmpty()){
+				return false;
+			}
+			return true;
+			
 		}
+		catch(OutOfMemoryError e){
+			return false;
+		}
+		
+			
+	}
 	public StateT getState(List<ActionT> moves){
 		StateT state = null;
 		for (SearchTree<ActionT,StateT> pairs : trees) {

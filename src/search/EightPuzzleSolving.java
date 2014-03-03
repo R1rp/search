@@ -3,6 +3,7 @@ package search;
 import java.util.ArrayList;
 import java.util.List;
 
+import agendas.AgendaListBF;
 import rp13.search.interfaces.Agenda;
 import rp13.search.problem.puzzle.EightPuzzle;
 import rp13.search.problem.puzzle.EightPuzzle.PuzzleMove;
@@ -14,9 +15,8 @@ public class EightPuzzleSolving {
 	{
 		EightPuzzleSuccessorFunction function = new EightPuzzleSuccessorFunction();
 		EightPuzzle puzzle = EightPuzzle.randomEightPuzzle();
-		ArrayList<EightPuzzle> aList =
-				new ArrayList <EightPuzzle>();
-		Agenda<EightPuzzle> agenda = new AgendaListBF<EightPuzzle>(aList);
+
+		Agenda<EightPuzzle> agenda = new AgendaListBF<EightPuzzle>();
 		SearchingFramework<PuzzleMove,EightPuzzle,EightPuzzleSuccessorFunction > search 
 		= new SearchingFramework<PuzzleMove,EightPuzzle,EightPuzzleSuccessorFunction >
 		(function, puzzle, agenda);

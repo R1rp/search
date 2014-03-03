@@ -159,7 +159,7 @@ public class Jumble {
 		}
 	
 	
-	public String toString() {
+	public String ctoString() {
 		return c;
 	}
 

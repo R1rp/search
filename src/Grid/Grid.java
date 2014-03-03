@@ -96,11 +96,23 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		}
 		this.blocks = new ArrayList<BlockPair>();
 		this.robotDirection = RobotDirection.Up.val; //set robot face up 
+		this.robotX =0;
+		this.robotY=0;
 		this.g = 0;
 		calculateCost(); //calculate the cost
 	}
 
 	
+	public int getRobotDirection() {
+		return robotDirection;
+	}
+
+
+	public void setRobotDirection(int robotDirection) {
+		this.robotDirection = robotDirection;
+	}
+
+
 	//create a copy method much the same as the constructor
 	/**
 	 * basically copy everything 

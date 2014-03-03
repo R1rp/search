@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rp13.search.interfaces.Agenda;
-import search.AgendaListA;
+import agendas.AgendaListA;
 import search.SearchingFramework;
 import Grid.Grid;
 import Grid.GridSuccessorFunction;
@@ -23,8 +23,8 @@ public class test {
 		puzzle.setBlock(2, 2, 3, 2);
 		
 			
-		ArrayList<Grid> aList = new ArrayList <Grid>();
-		Agenda<Grid> agenda = new AgendaListA<Grid>(aList);
+	
+		Agenda<Grid> agenda = new agendas.AgendaListA<Grid>();
 		SearchingFramework<RobotMove,Grid,GridSuccessorFunction > search 
 		= new SearchingFramework<RobotMove,Grid,GridSuccessorFunction >
 		(function, puzzle, agenda);
@@ -43,8 +43,8 @@ public class test {
 		 //test detect online
 		puzzle=new Grid(puzzle); // new puzzle to solve
 		puzzle.setBlock(3, 0, 4, 0);
-		aList = new ArrayList <Grid>();
-		agenda = new AgendaListA<Grid>(aList);
+		
+		agenda = new AgendaListA<Grid>();
 		function = new GridSuccessorFunction();
 		SearchingFramework<RobotMove,Grid,GridSuccessorFunction > research 
 		= new SearchingFramework<RobotMove,Grid,GridSuccessorFunction >(function, puzzle, agenda);
