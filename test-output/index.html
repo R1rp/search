@@ -90,7 +90,7 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">3 methods,   3 passed</span>
+                    <span class="method-stats">4 methods,   4 passed</span>
                   </li>
                   <li>
                     <span class="method-list-title passed">Passed methods</span>
@@ -101,17 +101,22 @@
                     <div class="method-list-content passed suite-Default_suite">
                       <span>
                         <img width="3%" src="passed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="test.TestGrid" hash-for-method="testBlock">testBlock</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="test.TestAgenda" hash-for-method="testContains">testContains</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                       <span>
                         <img width="3%" src="passed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="test.TestGrid" hash-for-method="testGoal">testGoal</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="test.TestAgenda" hash-for-method="testPop">testPop</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                       <span>
                         <img width="3%" src="passed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="test.TestGrid" hash-for-method="testMove">testMove</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="test.TestAgenda" hash-for-method="testPush">testPush</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img width="3%" src="passed.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="test.TestAgenda" hash-for-method="testSort">testSort</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content passed suite-Default_suite -->
@@ -129,28 +134,35 @@
           <div class="suite-Default_suite-class-passed">
             <div class="main-panel-header rounded-window-top">
               <img src="passed.png"/>
-              <span class="class-name">test.TestGrid</span>
+              <span class="class-name">test.TestAgenda</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="testBlock">
-                  </a> <!-- testBlock -->
-                  <span class="method-name">testBlock</span>
+                  <a name="testContains">
+                  </a> <!-- testContains -->
+                  <span class="method-name">testContains</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
               <div class="method">
                 <div class="method-content">
-                  <a name="testGoal">
-                  </a> <!-- testGoal -->
-                  <span class="method-name">testGoal</span>
+                  <a name="testPop">
+                  </a> <!-- testPop -->
+                  <span class="method-name">testPop</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
               <div class="method">
                 <div class="method-content">
-                  <a name="testMove">
-                  </a> <!-- testMove -->
-                  <span class="method-name">testMove</span>
+                  <a name="testPush">
+                  </a> <!-- testPush -->
+                  <span class="method-name">testPush</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="testSort">
+                  </a> <!-- testSort -->
+                  <span class="method-name">testSort</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
@@ -158,7 +170,7 @@
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">/private/var/folders/pk/ms60yqq57qq6gt58xzymdq0m0000gn/T/testng-eclipse--104259747/testng-customsuite.xml</span>
+            <span class="header-content">/private/var/folders/pk/ms60yqq57qq6gt58xzymdq0m0000gn/T/testng-eclipse--936190006/testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -167,7 +179,7 @@
 &lt;suite name=&quot;Default suite&quot;&gt;
   &lt;test verbose=&quot;2&quot; name=&quot;Default test&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;test.TestGrid&quot;/&gt;
+      &lt;class name=&quot;test.TestAgenda&quot;/&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Default test --&gt;
 &lt;/suite&gt; &lt;!-- Default suite --&gt;
@@ -207,24 +219,28 @@ data.addColumn('number', 'Number');
 data.addColumn('string', 'Method');
 data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
-data.addRows(3);
+data.addRows(4);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'testBlock')
-data.setCell(0, 2, 'test.TestGrid')
-data.setCell(0, 3, 7);
+data.setCell(0, 1, 'testContains')
+data.setCell(0, 2, 'test.TestAgenda')
+data.setCell(0, 3, 6);
 data.setCell(1, 0, 1)
-data.setCell(1, 1, 'testGoal')
-data.setCell(1, 2, 'test.TestGrid')
-data.setCell(1, 3, 0);
+data.setCell(1, 1, 'testSort')
+data.setCell(1, 2, 'test.TestAgenda')
+data.setCell(1, 3, 2);
 data.setCell(2, 0, 2)
-data.setCell(2, 1, 'testMove')
-data.setCell(2, 2, 'test.TestGrid')
-data.setCell(2, 3, 0);
+data.setCell(2, 1, 'testPop')
+data.setCell(2, 2, 'test.TestAgenda')
+data.setCell(2, 3, 1);
+data.setCell(3, 0, 3)
+data.setCell(3, 1, 'testPush')
+data.setCell(3, 2, 'test.TestAgenda')
+data.setCell(3, 3, 1);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 7 ms</span>
+              <span class="suite-total-time">Total running time: 10 ms</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -250,30 +266,38 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">test.TestGrid</div> <!-- chronological-class-name -->
+              <div class="chronological-class-name">test.TestAgenda</div> <!-- chronological-class-name -->
               <div class="configuration-method before">
-                <span class="method-name">f</span>
+                <span class="method-name">beforeMethod</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-method before -->
               <div class="test-method">
-                <span class="method-name">testBlock</span>
-                <span class="method-start">7 ms</span>
+                <span class="method-name">testContains</span>
+                <span class="method-start">8 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-method before">
-                <span class="method-name">f</span>
+                <span class="method-name">beforeMethod</span>
                 <span class="method-start">15 ms</span>
               </div> <!-- configuration-method before -->
               <div class="test-method">
-                <span class="method-name">testGoal</span>
-                <span class="method-start">15 ms</span>
-              </div> <!-- test-method -->
-              <div class="configuration-method before">
-                <span class="method-name">f</span>
+                <span class="method-name">testPop</span>
                 <span class="method-start">16 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method before">
+                <span class="method-name">beforeMethod</span>
+                <span class="method-start">18 ms</span>
               </div> <!-- configuration-method before -->
               <div class="test-method">
-                <span class="method-name">testMove</span>
-                <span class="method-start">17 ms</span>
+                <span class="method-name">testPush</span>
+                <span class="method-start">18 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method before">
+                <span class="method-name">beforeMethod</span>
+                <span class="method-start">19 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <span class="method-name">testSort</span>
+                <span class="method-start">20 ms</span>
               </div> <!-- test-method -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->

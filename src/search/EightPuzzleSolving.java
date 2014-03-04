@@ -3,11 +3,11 @@ package search;
 import java.util.ArrayList;
 import java.util.List;
 
-import agendas.AgendaListBF;
 import rp13.search.interfaces.Agenda;
 import rp13.search.problem.puzzle.EightPuzzle;
 import rp13.search.problem.puzzle.EightPuzzle.PuzzleMove;
 import rp13.search.problem.puzzle.EightPuzzleSuccessorFunction;
+import agendas.AgendaListBF;
 
 public class EightPuzzleSolving {
 	
@@ -30,6 +30,7 @@ public class EightPuzzleSolving {
 			puzzle.makeMove(puzzleMove);
 			System.out.println(puzzle);
 		}
+		System.out.println(result);
 	}
 
 }

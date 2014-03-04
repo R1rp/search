@@ -1,5 +1,10 @@
 package Grid;
-
+/**
+ * a class to store two pairs of position
+ * two x-coor and two y-coor for the blocks
+ * @author Nelson
+ *
+ */
 public class BlockPair {
 	private int x;
 	private int y;

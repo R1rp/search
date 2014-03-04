@@ -7,8 +7,8 @@ import rp13.search.interfaces.Agenda;
 import rp13.search.interfaces.Puzzle;
 import rp13.search.interfaces.SuccessorFunction;
 import rp13.search.util.ActionStatePair;
+import SearchTree.SearchTreeNode;
 import SearchTree.SearchTree;
-import SearchTree.SearchTreeList;
 
 public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends SuccessorFunction<ActionT, StateT>> {
 	
@@ -17,8 +17,8 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 	private final StateT puzzle;
 	private List<ActionStatePair<ActionT,StateT>> successors;
 	private Agenda<StateT> agenda;
-	private SearchTreeList<ActionT,StateT> trees ;
-	private SearchTree<ActionT, StateT> original ;
+	private SearchTree<ActionT,StateT> trees ;
+	private SearchTreeNode<ActionT, StateT> original ;
 	
 	public SearchingFramework(Function function,
 			StateT puzzle,
@@ -26,12 +26,13 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 	{
 		this.function=function;
 		this.agenda = agenda;
-		this.original = new SearchTree<ActionT, StateT>(puzzle);
-		this.trees = new SearchTreeList<ActionT,StateT>();
+		this.original = new SearchTreeNode<ActionT, StateT>(puzzle);
+		this.trees = new SearchTree<ActionT,StateT>();
 		this.trees.add(original); //just add the puzzle to the trees for reference
 		this.puzzle = puzzle;
 		
 	}
+	
 	/**
 		push original puzzle to the open list(agenda)
 			generate successors through agenda.pop
@@ -57,7 +58,7 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 					List<ActionT> addmove = new ArrayList<ActionT>();//create new list to store move
 					addmove.addAll(trees.getPathTo(before)); //add the path to "before State"
 					addmove.add(successor.getAction());//add new move
-					trees.add(new SearchTree<ActionT, StateT>(successor.getState(),	addmove)); 
+					trees.add(new SearchTreeNode<ActionT, StateT>(successor.getState(),	addmove)); 
 					//add a new search tree with new state a the path to it
 					agenda.push(successor.getState()); //push the state to agenda
 					 
@@ -72,15 +73,20 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 			return true;
 			
 		}
-		catch(OutOfMemoryError e){
+		catch(OutOfMemoryError e){//DF or search by the robot will always out of memory. return no solution then
 			return false;
 		}
 		
 			
 	}
+	/** 
+	 * get the state by moves 
+	 * @param moves input
+	 * @return state
+	 */
 	public StateT getState(List<ActionT> moves){
 		StateT state = null;
-		for (SearchTree<ActionT,StateT> pairs : trees) {
+		for (SearchTreeNode<ActionT,StateT> pairs : trees) {
 			if(pairs.equalPath(moves)){
 				state = pairs.State();
 			}
@@ -90,7 +96,7 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 	}
 
 	/**
-	 * 
+	 * get the solution
 	 * @return the path to Goal
 	 */
 	public List<ActionT> getResult(){

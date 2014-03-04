@@ -17,7 +17,8 @@ public class TestGrid {
   public void f() {
 	  state = new Grid(5,5);
 	  state2 = new Grid(5,5);
-	  state.setGoal(2,2);
+	  state2.setRobot(1, 1);
+	  state2.setGoal(2,2);
 	  state3 = new Grid(3,3);
 	  state3.setGoal(1, 1);
   }
@@ -32,9 +33,9 @@ public class TestGrid {
   }
   
   public void testBlock(){
-	  state2.setBlock(0, 0, 1, 0);
+	  state.setBlock(0, 0, 1, 0);
 	  //should not be move right
-	  assertEquals(false,state2.isPossibleMove(RobotMove.RIGHT));
+	  assertEquals(false,state.isPossibleMove(RobotMove.RIGHT));
   }
   
   public void testGoal(){
@@ -42,5 +43,13 @@ public class TestGrid {
 	  state3.makeMove(RobotMove.FORWARD);
 	  state3.makeMove(RobotMove.RIGHT); // robot moves to flag position
 	  assertEquals(true,state3.isGoal());
+  }
+  
+  public void testToString(){
+	  assertEquals("G " , state2.Node(2, 2).toString());
+	  assertEquals("R " , state2.Node(1, 1).toString());
+	  state2.setBlock(0, 0, 1, 0);
+	  assertEquals("_|" , state2.Node(0, 0).toString());
+	  
   }
 }

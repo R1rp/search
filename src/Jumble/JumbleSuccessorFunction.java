@@ -1,4 +1,4 @@
-package search;
+package Jumble;
 
 
 
@@ -7,12 +7,12 @@ import java.util.List;
 
 import rp13.search.interfaces.SuccessorFunction;
 import rp13.search.util.ActionStatePair;
-import search.JumbleMove;
+import Jumble.JumbleMove;
 
 /**
- * An example eight-puzzle successor function.
+ * An example Jumble successor function.
  * 
- * @author Nick Hawes
+ * 
  * 
  * @param <ActionT>
  * @param <StateT>
@@ -33,10 +33,10 @@ public class JumbleSuccessorFunction implements
 		assert (_successors != null);
 
 		// for each of the moves that are available
-		for (JumbleMove move : JumbleMove.values()) {
+		for (JumbleMove move : JumbleMove.values(_state.getLength())) {
 
 			// check if it is possible
-			if (_state.isPossibleMove(move)) {
+			
 
 				// create a copy of the input state as we don't want to change
 				// it
@@ -50,12 +50,12 @@ public class JumbleSuccessorFunction implements
 								move, successor));
 			}
 
-		}
+		
 
 	}
 
 	public static void main(String[] args) {
-		Jumble state = Jumble.orderedPuzzle();
+		Jumble state = Jumble.orderedPuzzle("java");
 		JumbleSuccessorFunction successorFn = new JumbleSuccessorFunction();
 
 		// successors are added to the end of this list by the successor
