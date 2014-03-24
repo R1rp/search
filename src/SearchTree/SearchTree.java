@@ -6,10 +6,7 @@ import java.util.List;
 import rp13.search.interfaces.Puzzle;
 
 public class SearchTree<ActionT,StateT extends Puzzle> extends ArrayList<SearchTreeNode<ActionT,StateT>> {
-	
-	/**
-	 * 
-	 */
+	//this is actually an array list
 	private static final long serialVersionUID = 590782429016610499L;
 
 	/**
@@ -49,7 +46,7 @@ public class SearchTree<ActionT,StateT extends Puzzle> extends ArrayList<SearchT
 	}
 	/**
 	 * check whether a state is in the tree
-	 * @param state the state we wanna check
+	 * @param state the state we want to check
 	 * @return true is contain or false
 	 */
 	public boolean contain(StateT state){
@@ -61,7 +58,7 @@ public class SearchTree<ActionT,StateT extends Puzzle> extends ArrayList<SearchT
 	}
 	/**
 	 * Check whether there is a goal state in the list
-	 * @return isGoal?
+	 * @return is it Goal?
 	 */
 	public boolean isGoal(){
 		for (SearchTreeNode<ActionT,StateT> tree : this) {

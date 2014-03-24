@@ -45,6 +45,9 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 			
 			 * return true if there s a solution
 			 * false if no solution / all blocked
+			 * 
+			 * this is the search algorithm that can apply to all three kind of search
+			 * @return if there is an solution
 			 */
 	public boolean Search(){
 		try{
@@ -73,7 +76,7 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 			return true;
 			
 		}
-		catch(OutOfMemoryError e){//DF or search by the robot will always out of memory. return no solution then
+		catch(OutOfMemoryError e){//using Depth-first or search by the robot sometimes out of memory. return no solution then
 			return false;
 		}
 		
@@ -85,14 +88,7 @@ public class SearchingFramework<ActionT,StateT extends Puzzle,Function extends S
 	 * @return state
 	 */
 	public StateT getState(List<ActionT> moves){
-		StateT state = null;
-		for (SearchTreeNode<ActionT,StateT> pairs : trees) {
-			if(pairs.equalPath(moves)){
-				state = pairs.State();
-			}
-			
-		}
-		return state;
+		return trees.getState(moves);
 	}
 
 	/**

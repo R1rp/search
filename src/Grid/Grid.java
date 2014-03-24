@@ -8,7 +8,7 @@ import rp13.search.interfaces.Puzzle;
 
 public class Grid implements Comparable<Grid>,Puzzle{
 	/** enum for moving the robot
-	 * 
+	 * the value * 90 degrees equals to the turn value of the robot
 	 * @author Nelson
 	 * only have forward left and right so the robot cant go backwards to avoid duplicate state
 	 */
@@ -28,7 +28,7 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	 *
 	 */
 	public enum RobotDirection{
-		Left(0),Up(1),Right(2),Down(3);
+		MINUS_X(0),MINUS_Y(1),PLUS_X(2),PLUS_Y(3);
 		private final int val;
 		
 		private RobotDirection(int _val) {
@@ -59,10 +59,10 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	private int robotX;
 	private int robotY;
 	private int robotDirection;
-	private int d; //estimate distance
-	private int g; //cost
-	private int f; //total cost;
-	private List<BlockPair> blocks ;
+	private int d; 
+	private int g; 
+	private int f; 
+	private List<BlockPair> blocks ; 
 	
 	/**
 	 * constructor of a grid with a height and width
@@ -85,16 +85,16 @@ public class Grid implements Comparable<Grid>,Puzzle{
 				if(x==width-1){//right most
 					grid[x][y].setRightBlock();
 				}
-				if(y==0){//bottom most
-					grid[x][y].setDownBlock();
-				}
-				if(y==height-1){//top most
+				if(y==0){//Top most
 					grid[x][y].setUpBlock();
+				}
+				if(y==height-1){//Bottom most
+					grid[x][y].setDownBlock();
 				}
 			}
 		}
 		this.blocks = new ArrayList<BlockPair>();
-		this.robotDirection = RobotDirection.Up.val; //set robot face up 
+		this.robotDirection = RobotDirection.PLUS_X.val; //set robot face up 
 		this.robotX =0;
 		this.robotY=0;
 		this.g = 0;
@@ -109,13 +109,16 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		return robotDirection;
 	}
 
-
+	/**
+	 * set which direction the robot is facing
+	 * @param robotDirection the int representation
+	 */
 	public void setRobotDirection(int robotDirection) {
 		this.robotDirection = robotDirection;
 	}
 
 
-	//create a copy method much the same as the constructor
+	//create a copy method (much the same as the constructor)
 	/**
 	 * a copy method to copy THAT state
 	 * basically copy everything 
@@ -141,15 +144,15 @@ public class Grid implements Comparable<Grid>,Puzzle{
 					this.grid[i][j].setRightBlock();
 				}
 				if(j==0){
-					this.grid[i][j].setDownBlock();
+					this.grid[i][j].setUpBlock();
 				}
 				if(j==height-1){
-					this.grid[i][j].setUpBlock();
+					this.grid[i][j].setDownBlock();
 				}
 			}
 		}
 		
-		 //set blocks for the new grid
+		 //set blocks for the new grid according to the block list
 		 
 		this.blocks = new ArrayList<BlockPair>();
 		for (BlockPair pair : that.blocks) {
@@ -186,7 +189,7 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	
 	/**
 	 * set the robot position
-	 * and other position set isRobot be false
+	 * and other position set isRobot() be false
 	 * @param x robot x-coor
 	 * @param y robot y-coor
 	 * 
@@ -196,9 +199,8 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		this.robotY = y;
 		for (Node[] nodes : grid) {
 			for (Node node : nodes) {
-				node.RobotMove();
+				node.noRobot();
 			}
-			
 		}
 		grid[robotX][robotY].setRobot();
 	}
@@ -214,31 +216,37 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	}
 	
 	/**
-	 * Let the robot mvoe
+	 * Let the robot move
+	 * robot can have three moves 
+	 * but it depends on which direction the robot is facing
+	 * so check the facing direction after doing each moves
 	 * @param rmove either move FOWARD LEFT OR RIGHT
 	 */
 	public void makeMove(RobotMove rmove){
-		
 		if(isPossibleMove(rmove)){
-			robotDirection -= rmove.r_move; //robot rotate get new direction
+			//because some setup mistakes for RIGHT(-1) and LEFT(1) value 
+			//and the direction value
+			//so it is a minus
+			robotDirection -= rmove.r_move; //robot rotate get new facing direction
 			if(robotDirection>3){
-				robotDirection = RobotDirection.Left.val; // if greater 3 than is left
+				robotDirection = RobotDirection.MINUS_X.val; // if greater 3 than is left
 			}
 			if(robotDirection<0){
-				robotDirection = RobotDirection.Down.val; // if less than 0 than is down
+				robotDirection = RobotDirection.PLUS_Y.val; // if less than 0  than is down
 			}
-		
-			if(robotDirection==RobotDirection.Left.val){
+			
+			//determine which direction the robot is facing and do the moves
+			if(robotDirection==RobotDirection.MINUS_X.val){
 				setRobot(robotX-1 ,robotY);  //if robot is move left then set new robot position
 			}
-			if(robotDirection==RobotDirection.Up.val){
-				setRobot(robotX ,robotY+1); //move up
+			if(robotDirection==RobotDirection.MINUS_Y.val){
+				setRobot(robotX ,robotY-1); //move up
 			}
-			if(robotDirection==RobotDirection.Right.val){
+			if(robotDirection==RobotDirection.PLUS_X.val){
 				setRobot(robotX+1 ,robotY); //move right
 			}
-			if(robotDirection==RobotDirection.Down.val){
-				setRobot(robotX ,robotY-1); //move down
+			if(robotDirection==RobotDirection.PLUS_Y.val){
+				setRobot(robotX ,robotY+1); //move down
 			}
 			if(rmove==RobotMove.FORWARD){
 				g++; //move forward cost1
@@ -262,16 +270,16 @@ public class Grid implements Comparable<Grid>,Puzzle{
 			}
 		}
 		
-		if(temp==RobotDirection.Left.val){
+		if(temp==RobotDirection.MINUS_X.val){
 			return !grid[robotX][robotY].isLeftBlock(); //if move left check left is blocked;
 		}
-		else if(temp==RobotDirection.Up.val){
+		else if(temp==RobotDirection.MINUS_Y.val){
 			return !grid[robotX][robotY].isUpBlock(); //check up
 		}
-		else if(temp==RobotDirection.Right.val){
+		else if(temp==RobotDirection.PLUS_X.val){
 			return !grid[robotX][robotY].isRightBlock(); //check right
 		}
-		if(temp==RobotDirection.Down.val){
+		else if(temp==RobotDirection.PLUS_Y.val){
 			return !grid[robotX][robotY].isDownBlock(); //check down
 		}
 		return true;
@@ -320,12 +328,12 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	public void setBlock(int x , int y , int a, int b){
 		if(x==a){ // if up down block
 			if(b>y){
-				grid[x][y].setUpBlock();
-				grid[a][b].setDownBlock();
-			}
-			else{
 				grid[x][y].setDownBlock();
 				grid[a][b].setUpBlock();
+			}
+			else{
+				grid[x][y].setUpBlock();
+				grid[a][b].setDownBlock();
 			}
 		}
 		if(y==b){ // if left right block
@@ -371,7 +379,7 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	 */
 	public String toString(){
 		StringBuilder sp = new StringBuilder();
-		for(int y=height-1 ; y>=0 ; y--){
+		for(int y=0 ; y<height ; y++){
 			for(int x =0 ; x<width ;x++){
 				sp.append(grid[x][y]);
 			}
@@ -394,9 +402,9 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		a.setRobot(0, 0);
 		a.setGoal(2,1);
 		System.out.println(a);
-		System.out.println(RobotMove.FORWARD);
-		System.out.println(a.isPossibleMove(RobotMove.FORWARD));
-		a.makeMove(RobotMove.FORWARD);
+		System.out.println(RobotMove.LEFT);
+		System.out.println(a.isPossibleMove(RobotMove.LEFT));
+		a.makeMove(RobotMove.LEFT);
 		System.out.println(a);
 		
 		System.out.println(RobotMove.RIGHT);

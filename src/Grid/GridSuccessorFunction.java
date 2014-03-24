@@ -6,7 +6,11 @@ import java.util.List;
 import rp13.search.interfaces.SuccessorFunction;
 import rp13.search.util.ActionStatePair;
 import Grid.Grid.RobotMove;
-
+/**
+ * no big difference to the eight puzzle successor function
+ * @author Nelson
+ *
+ */
 public class GridSuccessorFunction implements
 		SuccessorFunction<RobotMove, Grid> {
 

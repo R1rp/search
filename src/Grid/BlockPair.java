@@ -2,6 +2,7 @@ package Grid;
 /**
  * a class to store two pairs of position
  * two x-coor and two y-coor for the blocks
+ * just some getter and setter
  * @author Nelson
  *
  */
@@ -12,7 +13,6 @@ public class BlockPair {
 	private int b;
 	
 	public BlockPair(int x, int y, int a, int b) {
-		super();
 		this.x = x;
 		this.y = y;
 		this.a = a;
