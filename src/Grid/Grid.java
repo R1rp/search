@@ -13,7 +13,7 @@ public class Grid implements Comparable<Grid>,Puzzle{
 	 * only have forward left and right so the robot cant go backwards to avoid duplicate state
 	 */
 	public enum RobotMove{
-		FORWARD(0),LEFT(+1),RIGHT(-1);
+		FORWARD(0),LEFT(+1),RIGHT(-1),BACKWARD(+2);
 
 		public final int r_move;
 
@@ -254,6 +254,9 @@ public class Grid implements Comparable<Grid>,Puzzle{
 			if(rmove==RobotMove.LEFT||rmove==RobotMove.RIGHT){
 				g=g+2; //turn cost 2
 			}
+			if(rmove==RobotMove.BACKWARD){
+				g+=3;
+			}
 			calculateCost(); //re-calculate cost
 		}
 	}
@@ -416,6 +419,8 @@ public class Grid implements Comparable<Grid>,Puzzle{
 		System.out.println(a);
 
 		a.makeMove(RobotMove.RIGHT);
+		System.out.println(a);
+		a.makeMove(RobotMove.BACKWARD);
 		System.out.println(a);
 
 	}
